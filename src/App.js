@@ -1,28 +1,52 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
 
-class App extends Component {
+//import('./src/static/data/products.json').then(json => ...)
+
+class App extends React.Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+      <ProductCatalog products={this.props.products} />
     );
   }
 }
 
-export default App;
+class ProductCatalog extends React.Component {
+  render() {
+    const rows = [];
+
+    this.props.products.forEach((product) => {
+      rows.push(
+          <Product
+            product={product}/>
+            );
+    });
+
+    return (
+      <table>
+        <tbody>{rows}</tbody>
+      </table>
+      );
+  }
+}
+
+class Product extends React.Component {
+  const product = this.props.product;
+
+  render() {
+    return (
+      <img classes="shelf-item__img"
+        src={
+          import(`../../src/static/products/${product.sku}_1.jpg`)
+        }
+        alt={product.title}
+        ></img>
+      <p className="shelf-item__title">{product.title}</p>
+    );
+  }
+}
+
+
+ReactDOM.render(
+  <App products={PRODUCTS} />,
+  document.getElementById('container')
+);
